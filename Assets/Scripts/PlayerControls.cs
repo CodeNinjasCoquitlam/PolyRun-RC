@@ -24,7 +24,39 @@ public class PlayerControls : MonoBehaviour
         posX = transform.position.x;
     }
 
-   
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Ground")
+        {
+            //isGrounded = true
+            isGrounded = true;
+        }
+    }
+
+    //when a collider on another object is touching this object's c0llider
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        //if colliders tag equals ground
+        if (collision.collider.tag == "Ground")
+        {
+            //is grounded equals true
+            isGrounded = false;
+        }
+    }
+
+
+    // when a collider on another object is touching this objects collider
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        //if colliders tag equals ground
+        if (collision.collider.tag == "Ground")
+        {
+            //isGrounded equals true
+            isGrounded = true;
+        }
+    }
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -34,5 +66,20 @@ public class PlayerControls : MonoBehaviour
             //Adds force to the object to jump upwards based on jump power, mass, and gravity
             rb.AddForce(Vector3.up * (jumpPower * rb.mass * rb.gravityScale * 20.0f));
         }
+
+        //if the playher position is less than the original position of the player
+        if (transform.position.x < posX)
+        {
+            //Execute GameOver function
+            GameOver();
+        }
     }
+
+    //game over function
+    void GameOver()
+    {
+        //game is at a stopping state
+        Time.timeScale = 0;
+    }
+
 }
